@@ -1,5 +1,14 @@
-import { Heading, HStack, Image, VStack, Text } from "@gluestack-ui/themed";
+import {
+  Heading,
+  HStack,
+  Image,
+  VStack,
+  Text,
+  Icon,
+} from "@gluestack-ui/themed";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+
+import { ChevronRight } from "lucide-react-native";
 
 type Props = TouchableOpacityProps;
 
@@ -35,6 +44,8 @@ export function ExerciseCard({ ...rest }: Props) {
             série x 12 repetições
           </Text>
         </VStack>
+
+        <Icon as={ChevronRight} color="$gray300" />
       </HStack>
     </TouchableOpacity>
   );
