@@ -10,9 +10,11 @@ import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 import { ChevronRight } from "lucide-react-native";
 
-type Props = TouchableOpacityProps;
+type Props = TouchableOpacityProps & {
+  name: string;
+}
 
-export function ExerciseCard({ ...rest }: Props) {
+export function ExerciseCard({name, ...rest }: Props) {
   return (
     <TouchableOpacity {...rest}>
       <HStack
@@ -37,7 +39,7 @@ export function ExerciseCard({ ...rest }: Props) {
 
         <VStack flex={1}>
           <Heading fontSize="$lg" color="$white" fontFamily="$heading">
-            Puxada frontal
+            {name}
           </Heading>
           <Text fontSize="$sm" color="$gray200" mt="$1" numberOfLines={2}>
             {" "}
