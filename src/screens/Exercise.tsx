@@ -1,10 +1,24 @@
-import { Center, Text } from "@gluestack-ui/themed";
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-export function Exercise(){
+import { Icon, VStack } from "@gluestack-ui/themed";
+import { ArrowLeft } from "lucide-react-native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
-    return(
-        <Center flex={1}>
-            <Text color="$white">Exercise</Text>
-        </Center>
-    )
+export function Exercise() {
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+  function handleGoback() {
+    navigation.goBack()
+  }
+
+  return (
+    <VStack flex={1}>
+      <VStack px="$8" bg="$gray600" pt="$12">
+        <TouchableOpacity onPress={handleGoback}>
+          <Icon as={ArrowLeft} color="$green500" size="xl" />
+        </TouchableOpacity>
+      </VStack>
+    </VStack>
+  );
 }
