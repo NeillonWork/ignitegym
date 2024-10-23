@@ -8,11 +8,13 @@ import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
 import { Input } from "@components/input";
 import { Button } from "@components/Button";
+import { ToastMessage } from "@components/ToastMessage";
 
 export function Profile() {
   const [userPhoto, setUserPhoto] = useState(
     "https:github.com/NeillonWork.png"
   );
+  
 
   async function handleUserPhotoSelect() {
     const photoSelected = await ImagePicker.launchImageLibraryAsync({
@@ -28,8 +30,6 @@ export function Profile() {
 
     const photoURI = photoSelected.assets[0].uri;
 
-    setUserPhoto(photoURI);
-
     if (photoURI) {
       const photoInfo = (await FileSystem.getInfoAsync(photoURI)) as {
         size: number;
@@ -39,10 +39,7 @@ export function Profile() {
         return Alert.alert(
           "Essa imagem é muito grande. Escolha uma de até 5MB"
         );
-
-        return;
       }
-
       setUserPhoto(photoURI);
     }
   }
@@ -50,6 +47,9 @@ export function Profile() {
   return (
     <VStack flex={1}>
       <ScreenHeader title="Perfil" />
+
+
+      <ToastMessage id="1" title="Mensagem de exemplo" description="teste teste teste teste teste aaaaaa" action="success" onClose={()=>{}}/>
 
       <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <Center mt="$6" px="$10">
