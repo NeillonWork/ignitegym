@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Alert, ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 
-import { Center, Heading, Text, VStack } from "@gluestack-ui/themed";
+import { Center, Heading, Text, VStack, useToast } from "@gluestack-ui/themed";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
 import { Input } from "@components/input";
@@ -14,7 +14,8 @@ export function Profile() {
   const [userPhoto, setUserPhoto] = useState(
     "https:github.com/NeillonWork.png"
   );
-  
+
+  const toast = useToast();
 
   async function handleUserPhotoSelect() {
     const photoSelected = await ImagePicker.launchImageLibraryAsync({
@@ -36,20 +37,26 @@ export function Profile() {
       };
 
       if (photoInfo.size && photoInfo.size / 1024 / 1024 > 5) {
-        return Alert.alert(
-          "Essa imagem é muito grande. Escolha uma de até 5MB"
-        );
+        return toast.show({
+          placement: "top",
+          render: ({ id }) => (
+            <ToastMessage
+              id={id}
+              action="error"
+              title="Atenção!"
+              description="Essa imagem é muito grande. Escolha uma de até 5mb."
+              onClose={() => toast.close(id)}
+            />
+          ),
+        });
+
+        setUserPhoto(photoURI);
       }
-      setUserPhoto(photoURI);
     }
   }
-
   return (
     <VStack flex={1}>
       <ScreenHeader title="Perfil" />
-
-
-      <ToastMessage id="1" title="Mensagem de exemplo" description="teste teste teste teste teste aaaaaa" action="success" onClose={()=>{}}/>
 
       <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <Center mt="$6" px="$10">
