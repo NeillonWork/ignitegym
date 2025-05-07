@@ -15,16 +15,32 @@ import Logo from "@assets/logo.svg";
 import { Input } from "@components/input";
 import { Button } from "@components/Button";
 
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
+
 export function SignUp() {
   const navigator = useNavigation();
-  const { control, handleSubmit } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormDataProps>();
 
   function handleBackHome() {
     navigator.goBack();
   }
 
-  function handleSignUp(data: any) {
-    console.log(data);
+  function handleSignUp({
+    name,
+    email,
+    password,
+    passwordConfirm,
+  }: FormDataProps) {
+    console.log({ name, email, password, passwordConfirm });
   }
 
   return (
@@ -57,6 +73,9 @@ export function SignUp() {
             <Controller
               control={control}
               name="name"
+              rules={{
+                required: "Informe o Nome!",
+              }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   placeholder="Nome"
@@ -65,10 +84,20 @@ export function SignUp() {
                 />
               )}
             />
+            {errors.name?.message && (
+              <Text color="$red500">{errors.name.message}</Text>
+            )}
 
             <Controller
               control={control}
               name="email"
+              rules={{
+                required: "Informe o E-mail",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "E-mail inválido",
+                },
+              }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   placeholder="E-mail"
@@ -80,9 +109,14 @@ export function SignUp() {
               )}
             />
 
+            {errors.email?.message && (
+              <Text color="$red500">{errors.email?.message}</Text>
+            )}
+
             <Controller
               control={control}
               name="password"
+              rules={{ required: "Informe a Senha" }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   placeholder="Senha"
@@ -92,10 +126,16 @@ export function SignUp() {
                 />
               )}
             />
+            {errors.password?.message && (
+              <Text color="$red500">{errors.password?.message}</Text>
+            )}
 
             <Controller
               control={control}
               name="passwordConfirm"
+              rules={{
+                required: "Confirme a Senha",
+              }}
               render={({ field: { onChange, value } }) => (
                 <Input
                   placeholder="Confirme a Senha"
@@ -107,6 +147,9 @@ export function SignUp() {
                 />
               )}
             />
+            {errors.passwordConfirm?.message && (
+              <Text color="$red500">{errors.passwordConfirm?.message}</Text>
+            )}
 
             <Button
               title="Criar e acessar"
